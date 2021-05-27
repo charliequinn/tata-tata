@@ -67,5 +67,18 @@ jobs:
             - CAPABILITY_AUTO_EXPAND
           on:
             branch: main
+        - provider: cloudformation
+          region: us-east-2
+          template: infra/scaling.yml
+          stack_name: tata-tataSCALING
+          access_key_id: $AWS_ACCESS_KEY_ID
+          secret_access_key: $AWS_SECRET_ACCESS_KEY
+          edge: true
+          cleanup: false
+          parameters: "$(cat ecs-output.txt)"
+          capabilities:
+            - CAPABILITY_NAMED_IAM
+          on:
+            branch: main
       after_deploy:
         - echo "$(cat ecs-output.txt)"
